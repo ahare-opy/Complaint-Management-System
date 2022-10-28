@@ -121,31 +121,7 @@ function Login() {
         </Segment>
       </Form>
 
-      <Divider />
-
-      <Header as="h6" textalign="center">
-        OR
-      </Header>
-
-      <Divider />
-
-      <Button
-        icon="google"
-        content="Google Log IN"
-        type="submit"
-        color="purple"
-        active
-      />
-
-      <GoogleLogin
-        clientId="301857110564-gujlm0ub4dmflclom9rnm90pm1qi79b6.apps.googleusercontent.com"
-        buttonText="Login with Google"
-        onSuccess={responseGoogle}
-        cookiePolicy={'single_host_origin'}
-      />
-
-      <Divider />
-
+      <Divider/>
       <FooterMessage />
     </>
   );

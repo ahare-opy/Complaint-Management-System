@@ -167,22 +167,6 @@ function SingUp() {
 
       <Divider />
 
-      <Header as="h6" textalign="center">
-        OR
-      </Header>
-
-      <Divider />
-
-      <Button
-        icon="google"
-        content="Google Sign In"
-        type="submit"
-        color="purple"
-        active
-      />
-
-      <Divider />
-
       <FooterMessage />
     </>
   );

@@ -15,15 +15,7 @@ class MyApp extends App {
     let pageProps = {};
 
     const protectedRoutes =
-      ctx.pathname === '/' ||
-      ctx.pathname === '/complain' ||
-      ctx.pathname === '/review' ||
-      ctx.pathname === '/create-complain' ||
-      ctx.pathname === '/resolved-complains' ||
-      ctx.pathname === '/past-complain' ||
-      ctx.pathname === '/registerAccount' ||
-      ctx.pathname === '/user' ||
-      ctx.pathname === '/complain-against';
+      ctx.pathname === '/';
 
     if (!token) {
       protectedRoutes && redirectUser(ctx, '/login');
