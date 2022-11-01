@@ -8,14 +8,15 @@ import 'semantic-ui-css/semantic.min.css';
 import { Router } from 'next/router';
 
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) {
-    //console.log(ctx);
+  static async getInitialProps({ Component, ctx }) { //
+    
     const { token } = parseCookies(ctx);
 
     let pageProps = {};
 
     const protectedRoutes =
-      ctx.pathname === '/';
+      ctx.pathname === '/' || 
+      ctx.pathname === 'signup-two';
 
     if (!token) {
       protectedRoutes && redirectUser(ctx, '/login');

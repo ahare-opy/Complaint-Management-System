@@ -1,11 +1,7 @@
-const crypto = require('crypto');
-const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user-model.js');
 const catchAsync = require('../utilsServer/catchAsync');
-const AppError = require('../utilsServer/appError');
-const sendEmail = require('../utilsServer/email');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, password } = req.body.user;
