@@ -9,14 +9,16 @@ import { Router } from 'next/router';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) { //
-    
+    //console.log(Component);
     const { token } = parseCookies(ctx);
 
     let pageProps = {};
 
     const protectedRoutes =
       ctx.pathname === '/' || 
-      ctx.pathname === 'signup-two';
+      ctx.pathname === '/signup-two' ||
+      ctx.pathname === '/complain' ||
+      ctx.pathname === '/create-complain';
 
     if (!token) {
       protectedRoutes && redirectUser(ctx, '/login');
@@ -29,6 +31,8 @@ class MyApp extends App {
         const res = await axios.get(`${baseUrl}/api/v1/user/me`, {
           headers: { Authorization: token },
         });
+
+        console.log(res);
 
         const { user } = res.data;
 

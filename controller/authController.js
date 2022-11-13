@@ -39,6 +39,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 });
 
+//middleware
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
 

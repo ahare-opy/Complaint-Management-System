@@ -18,10 +18,12 @@ app.options('*', cors());
 app.use(bodyParser.json({ limit: '50mb' }));
 
 nextApp.prepare().then(() => {
+  //app.use(require('cookie-parser'));
 
   app.use('/api/v1/signup', require('./api/signupRoute'));
   app.use('/api/v1/login', require('./api/loginRoute'));
   app.use('/api/v1/user', require('./api/userRoute'));
+  app.use('/api/v1/complain', require('./api/complainRoute'));
 
   app.all('*', (req, res) => handle(req, res));
 

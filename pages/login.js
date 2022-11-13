@@ -9,7 +9,6 @@ import {
   Item,
   Header,
 } from 'semantic-ui-react';
-import GoogleLogin from 'react-google-login';
 import cookie from 'js-cookie';
 import {
   HeaderMessage,
