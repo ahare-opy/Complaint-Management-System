@@ -1,7 +1,11 @@
+const crypto = require('crypto');
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user-model.js');
 const catchAsync = require('../utilsServer/catchAsync');
+const AppError = require('../utilsServer/appError');
+const sendEmail = require('../utilsServer/email');
 
 exports.signup = catchAsync(async (req, res, next) => {
   const { name, email, password } = req.body.user;
@@ -83,5 +87,28 @@ exports.checkEmail = catchAsync(async (req, res, next) => {
     return res.status(200).json('Available');
   } catch (error) {
     return res.status(500).json('Server Error');
+  }
+});
+
+exports.registerAccountSys = catchAsync(async (req, res, next) => {
+  const { name, email, password, RFID, phoneNumber, typeOfUser } =
+    req.body.user;
+
+  try {
+    const user = new User({
+      name,
+      email: email.toLowerCase(),
+      password,
+      RFID,
+      phoneNumber,
+      typeOfUser,
+      image: req.body.profilePicUrl,
+    });
+
+    await user.save();
+
+    res.status(200).json('Successfully registered user');
+  } catch (error) {
+    return res.status(500).json("Couldn't register new user");
   }
 });

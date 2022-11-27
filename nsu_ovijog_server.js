@@ -11,6 +11,15 @@ require('dotenv').config({ path: './config.env' });
 const connectDB = require('./utilsServer/connectDB');
 const PORT = process.env.PORT || 3000;
 
+/*
+const loginRoute = require('./api/loginRoute');
+const dashboardRoute = require('./api/dashboardRoute');
+const signupTwoRoute = require('./api/signupTwoRoute');
+const userRoute = require('./api/userRoute');
+const complainRoute = require('./api/complainRoute');
+const reviewRoute = require('./api/reviewRoute');
+const systemAdminRoute = require('./api/systemAdminRoute');
+*/
 connectDB();
 
 app.use(cors());
@@ -24,6 +33,7 @@ nextApp.prepare().then(() => {
   app.use('/api/v1/login', require('./api/loginRoute'));
   app.use('/api/v1/user', require('./api/userRoute'));
   app.use('/api/v1/complain', require('./api/complainRoute'));
+
 
   app.all('*', (req, res) => handle(req, res));
 

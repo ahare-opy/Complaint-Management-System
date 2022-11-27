@@ -32,8 +32,6 @@ class MyApp extends App {
           headers: { Authorization: token },
         });
 
-        console.log(res);
-
         const { user } = res.data;
 
         //if (user) !protectedRoutes && redirectUser(ctx, '/');

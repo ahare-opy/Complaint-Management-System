@@ -11,8 +11,12 @@ import {
   Button,
 } from 'semantic-ui-react';
 import calculateTime from '../../utils/calculateTime';
+import CommentComplain from './CommentComplain';
+import CommentInputField from './CommentInputFields';
+import ModalComplainHistory from './ModalComplainHistory';
 
 function ModalComplainDetails({ user, complain }) {
+  const [comments, setComments] = useState(complain.comments);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [passComplain, setPassComplain] = useState(complain);
 
@@ -62,7 +66,7 @@ function ModalComplainDetails({ user, complain }) {
                     src={complain.faulty.image}
                   />
                   <Card.Header>{complain.faulty.name}</Card.Header>
-                  <Card.Meta>Faulty</Card.Meta>
+                  <Card.Meta>Accused</Card.Meta>
                 </Card.Content>
               </Card>
 
@@ -79,8 +83,55 @@ function ModalComplainDetails({ user, complain }) {
               </Card>
             </Card.Group>
           </Card.Content>
+
+          <Card.Content>
+            <Header as="h3" dividing>
+              Status
+            </Header>
+            {comments.length > 0 &&
+              comments.map((comment) => (
+                <CommentComplain
+                  key={comment._id}
+                  comment={comment}
+                  setComments={setComments}
+                />
+              ))}
+
+            <Divider hidden />
+
+            <CommentInputField
+              user={user}
+              complainID={complain._id}
+              setComments={setComments}
+            />
+          </Card.Content>
+
+          <Card.Content>
+            <Card.Meta>
+              <Button
+                content="History"
+                floated="left"
+                color="grey"
+                onClick={() => setShowHistoryModal(true)}
+              />
+            </Card.Meta>
+          </Card.Content>
         </Card>
       </Modal.Content>
+
+      {showHistoryModal && (
+        <Modal
+          closeIcon
+          closeOnDimmerClick
+          centered
+          onClose={() => setShowHistoryModal(false)}
+          open={showHistoryModal}
+        >
+          <Modal.Content scrolling>
+            <ModalComplainHistory user={user} complain={passComplain} />
+          </Modal.Content>
+        </Modal>
+      )}
     </div>
   );
 }

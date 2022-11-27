@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Card, Divider, Grid, Image, Modal } from 'semantic-ui-react';
 import calculateTime from '../../utils/calculateTime';
 import ModalComplainDetails from './ModalComplainDetails';
-
+import ModalComplainEdit from './ModalComplainEdit';
 
 function CardComplain({ user, complain, setComplains }) {
   const [showModal, setShowModal] = useState(false);
@@ -36,7 +36,7 @@ function CardComplain({ user, complain, setComplains }) {
             <Card.Content>
               <Image floated="right" size="mini" src={complain.faulty.image} />
               <Card.Header>{complain.faulty.name}</Card.Header>
-              <Card.Meta>Faulty</Card.Meta>
+              <Card.Meta>Accused</Card.Meta>
             </Card.Content>
           </Card>
         </Card.Content>
@@ -64,6 +64,15 @@ function CardComplain({ user, complain, setComplains }) {
               setShowModal(true);
             }}
           />
+
+          <Button
+            content="Edit"
+            floated="right"
+            color="blue"
+            onClick={() => {
+              setShowEditModal(true);
+            }}
+          />
         </Card.Content>
       </Card>
 
@@ -77,6 +86,24 @@ function CardComplain({ user, complain, setComplains }) {
         >
           <Modal.Content scrolling>
             <ModalComplainDetails user={user} complain={complain} />
+          </Modal.Content>
+        </Modal>
+      )}
+
+      {showEditModal && (
+        <Modal
+          closeIcon
+          closeOnDimmerClick
+          centered
+          onClose={() => setShowEditModal(false)}
+          open={showEditModal}
+        >
+          <Modal.Content scrolling>
+            <ModalComplainEdit
+              user={user}
+              complain={complain}
+              setComplains={setComplains}
+            />
           </Modal.Content>
         </Modal>
       )}

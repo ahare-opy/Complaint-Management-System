@@ -1,7 +1,11 @@
+const crypto = require('crypto');
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user-model');
 const catchAsync = require('../utilsServer/catchAsync');
+const AppError = require('../utilsServer/appError');
+const sendEmail = require('../utilsServer/email');
 
 exports.login = catchAsync(async (req, res, next) => {
   //console.log(req.body.user);
@@ -39,7 +43,6 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 });
 
-//middleware
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
 
