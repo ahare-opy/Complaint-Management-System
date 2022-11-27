@@ -33,7 +33,14 @@ nextApp.prepare().then(() => {
   app.use('/api/v1/login', require('./api/loginRoute'));
   app.use('/api/v1/user', require('./api/userRoute'));
   app.use('/api/v1/complain', require('./api/complainRoute'));
-
+  app.use('/api/v1/review', require('./api/reviewRoute'));
+  /*app.use('/api/v1', loginRoute);
+  app.use('/api/v1/dashboard', dashboardRoute);
+  app.use('/api/v1/signupTwo', signupTwoRoute);
+  app.use('/api/v1/user', userRoute);
+  app.use('/api/v1/complain', complainRoute);
+  app.use('/api/v1/review', reviewRoute);
+  app.use('/api/v1/systemAdmin', systemAdminRoute);*/
 
   app.all('*', (req, res) => handle(req, res));
 

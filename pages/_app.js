@@ -8,17 +8,22 @@ import 'semantic-ui-css/semantic.min.css';
 import { Router } from 'next/router';
 
 class MyApp extends App {
-  static async getInitialProps({ Component, ctx }) { //
-    //console.log(Component);
+  static async getInitialProps({ Component, ctx }) {
+    //console.log(ctx);
     const { token } = parseCookies(ctx);
 
     let pageProps = {};
 
     const protectedRoutes =
-      ctx.pathname === '/' || 
-      ctx.pathname === '/signup-two' ||
+      ctx.pathname === '/' ||
       ctx.pathname === '/complain' ||
-      ctx.pathname === '/create-complain';
+      ctx.pathname === '/review' ||
+      ctx.pathname === '/create-complain' ||
+      ctx.pathname === '/resolved-complains' ||
+      ctx.pathname === '/past-complain' ||
+      ctx.pathname === '/registerAccount' ||
+      ctx.pathname === '/user' ||
+      ctx.pathname === '/complain-against';
 
     if (!token) {
       protectedRoutes && redirectUser(ctx, '/login');

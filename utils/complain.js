@@ -77,8 +77,6 @@ export const EditComplain = async (
       { headers: { Authorization: token } }
     );
 
-    console.log("Hey");
-
     Router.reload();
   } catch (error) {
     const errorMsg = catchErrors(error);

@@ -211,7 +211,7 @@ function CreateComplain({ user }) {
               fluid
               required
             />
-            <Label as="h4"> Accused </Label>
+            <Label as="h4"> Faulty </Label>
             <Search
               label="Faulty"
               onBlur={() => {

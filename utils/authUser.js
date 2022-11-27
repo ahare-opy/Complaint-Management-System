@@ -83,3 +83,28 @@ export const logoutUser = (email) => {
   Router.push('/login');
   Router.reload();
 };
+
+export const registerAccountSysAdmin = async (
+  user,
+  profilePicUrl,
+  setError,
+  setFormLoading
+) => {
+  try {
+    const token = cookie.get('token');
+
+    const res = await axios.post(
+      `${baseUrl}/api/v1/signup/registerAccountSys`,
+      { user, profilePicUrl },
+      { headers: { Authorization: token } }
+    );
+
+    Router.reload();
+    Router.push('/registerAccount');
+  } catch (error) {
+    const errorMsg = catchErrors(error);
+    setError(errorMsg);
+  }
+
+  setFormLoading(false);
+};
