@@ -98,6 +98,7 @@ export const registerAccountSysAdmin = async (
       { user, profilePicUrl },
       { headers: { Authorization: token } }
     );
+    setFormLoading(false);
 
     Router.reload();
     Router.push('/registerAccount');

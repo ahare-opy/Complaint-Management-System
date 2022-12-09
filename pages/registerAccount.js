@@ -62,6 +62,31 @@ function RegisterAccount() {
       text: 'System-Admin',
       value: 'System-Admin',
     },
+    {
+      key: 'Chairman',
+      text: 'Chairman',
+      value: 'Chairman',
+    },
+    {
+      key: 'Dean',
+      text: 'Dean',
+      value: 'Dean',
+    },
+    {
+      key: 'Academic-Council',
+      text: 'Academic-Council',
+      value: 'Academic-Council',
+    },
+    {
+      key: 'Pro-Vice-Chancellor',
+      text: 'Pro-Vice-Chancellor',
+      value: 'Pro-Vice-Chancellor',
+    },
+    {
+      key: 'Vice-Chancellor',
+      text: 'Vice-Chancellor',
+      value: 'Vice-Chancellor',
+    },
   ];
 
   const [showPassword, setShowPassword] = useState(false);
@@ -177,7 +202,7 @@ function RegisterAccount() {
             loading={userEmailLoading}
             error={!userEmailAvailable}
             label="Email"
-            placeholder="NSU Email"
+            placeholder="Email"
             name="email"
             value={email}
             onChange={(e) => {

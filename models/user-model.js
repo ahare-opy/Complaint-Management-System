@@ -30,6 +30,11 @@ const userSchema = new mongoose.Schema({
       'Non-Faculty',
       'Helper',
       'System-Admin',
+      'Chairman',
+      'Dean',
+      'Academic-Council',
+      'Pro-Vice-Chancellor',
+      'Vice-Chancellor',
     ],
   },
   password: {

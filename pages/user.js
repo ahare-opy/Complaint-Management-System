@@ -31,20 +31,14 @@ function User() {
         <Card.Group>
           {users.map((user) => (
             <Card>
-              <Image src={user.image} wrapped ui={false} />
+              <img src={user.image} width="290px" height="300px" class="center"/>
               <Card.Content>
                 <Card.Header>{user.name}</Card.Header>
                 <Card.Meta>{user.typeOfUser}</Card.Meta>
               </Card.Content>
-              <Card.Content>
-                <Grid>
-                  <Grid.Row textAlign="left">
-                    <Label>Email: {user.email}</Label>
-                    <Label>RFID: {user.RFID}</Label>
-                    <Label>P. NO: {user.phoneNumber}</Label>
-                  </Grid.Row>
-                </Grid>
-              </Card.Content>
+              <Card.Content>Email: {user.email}</Card.Content>
+              <Card.Content>RFID: {user.RFID}</Card.Content>
+              <Card.Content>P. NO: {user.phoneNumber}</Card.Content>
             </Card>
           ))}
         </Card.Group>

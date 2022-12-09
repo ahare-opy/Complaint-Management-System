@@ -62,7 +62,13 @@ function SideMenu({ user }) {
         </List>
       </>
     );
-  } else if (user.typeOfUser == 'Faculty' || user.typeOfUser == 'Admin-Staff') {
+  } else if (user.typeOfUser == 'Faculty' || 
+             user.typeOfUser == 'Admin-Staff' ||
+             user.typeOfUser == 'Chairman' ||
+             user.typeOfUser == 'Dean' ||
+             user.typeOfUser == 'Academic-Council' ||
+             user.typeOfUser == 'Pro-Vice-Chancellor' ||
+             user.typeOfUser == 'Vice-Chancellor') {
     return (
       <>
         <List
