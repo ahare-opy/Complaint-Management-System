@@ -24,10 +24,12 @@ const complainSchema = new mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: 'User',
     },
-    reviewer: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'User',
-    },
+    reviewer: [{
+      _id: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      }
+    }],
     comments: [
       {
         _id: { type: String },

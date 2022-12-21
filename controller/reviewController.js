@@ -10,14 +10,135 @@ const {
   reviewerChangeEmail,
 } = require('../utilsServer/reviewEmail');
 
+async function forFaculty(params){
+  var f;
+  
+  if(params.length == 3){
+    f = await User.find({
+      typeOfUser: 'Chairman',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}, {_id: {'$ne': params[2]._id}}],
+    });
+  } else if(params.length == 2){
+    f = await User.find({
+      typeOfUser: 'Chairman',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}],
+    });
+  }else{
+    f = await User.find({
+      typeOfUser: 'Chairman',
+      $and: [{_id: {'$ne': params[0]._id}}],
+    });
+  }
+
+  return f[Math.floor(Math.random() * f.length)]
+}
+
+async function forAdminStaff(params){
+  var f;
+  
+  if(params.length == 3){
+    f = await User.find({
+      typeOfUser: 'Academic-Council',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}, {_id: {'$ne': params[2]._id}}],
+    });
+  } else if(params.length == 2){
+    f = await User.find({
+      typeOfUser: 'Academic-Council',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}],
+    });
+  }else{
+    f = await User.find({
+      typeOfUser: 'Academic-Council',
+      $and: [{_id: {'$ne': params[0]._id}}],
+    });
+  }
+
+  return f[Math.floor(Math.random() * f.length)]
+}
+
+async function forChairman(params){
+  var f;
+  
+  if(params.length == 3){
+    f = await User.find({
+      typeOfUser: 'Dean',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}, {_id: {'$ne': params[2]._id}}],
+    });
+  } else if(params.length == 2){
+    f = await User.find({
+      typeOfUser: 'Dean',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}],
+    });
+  }else{
+    f = await User.find({
+      typeOfUser: 'Dean',
+      $and: [{_id: {'$ne': params[0]._id}}],
+    });
+  }
+
+  //console.log(f);
+
+  var a = Math.floor(Math.random() * f.length);
+
+  //console.log(f[a]);
+
+  return f[a]._id;
+}
+
+async function forDean(params){
+  var f;
+  
+  if(params.length == 3){
+    f = await User.find({
+      typeOfUser: 'Academic-Council',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}, {_id: {'$ne': params[2]._id}}],
+    });
+  } else if(params.length == 2){
+    f = await User.find({
+      typeOfUser: 'Academic-Council',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}],
+    });
+  }else{
+    f = await User.find({
+      typeOfUser: 'Academic-Council',
+      $and: [{_id: {'$ne': params[0]._id}}],
+    });
+  }
+
+  return f[Math.floor(Math.random() * f.length)]
+}
+
+async function forAcaCouncil(params){
+  var f;
+  
+  if(params.length == 3){
+    f = await User.find({
+      typeOfUser: 'Pro-Vice-Chancellor',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}, {_id: {'$ne': params[2]._id}}],
+    });
+  } else if(params.length == 2){
+    f = await User.find({
+      typeOfUser: 'Pro-Vice-Chancellor',
+      $and: [{_id: {'$ne': params[0]._id}}, {_id: {'$ne': params[1]._id}}],
+    });
+  }else{
+    f = await User.find({
+      typeOfUser: 'Pro-Vice-Chancellor',
+      $and: [{_id: {'$ne': params[0]._id}}],
+    });
+  }
+
+  return f[Math.floor(Math.random() * f.length)]
+}
+
 exports.myReviewComplains = catchAsync(async (req, res, next) => {
   const complains = await ComplainModel.find({
-    reviewer: req.userID,
+    reviewer: {_id: req.userID},
     status: 'Open',
   })
     .populate('complainer')
     .populate('faulty')
-    .populate('reviewer')
+    .populate('reviewer._id')
     .populate('comments.commenter')
     .populate('versions.editor')
     .populate('versions._id');
@@ -37,7 +158,7 @@ exports.myReviewComplainsClosed = catchAsync(async (req, res, next) => {
   })
     .populate('complainer')
     .populate('faulty')
-    .populate('reviewer')
+    .populate('reviewer._id')
     .populate('comments.commenter')
     .populate('versions.editor')
     .populate('versions._id')
@@ -81,23 +202,36 @@ exports.closeComplain = catchAsync(async (req, res, next) => {
 exports.reviewerChange = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
-  const { user, reviewer } = req.body;
+  const { user } = req.body;
 
   const changer = await User.findById(user._id);
 
   if (!changer) return res.status(401).json('Changer does not exist');
 
-  let complain = await ComplainModel.findById(id).populate('reviewer');
+  let complain = await ComplainModel.findById(id).populate('reviewer._id');
 
-  console.log(user.RFID, complain.reviewer.RFID);
+  var reviewer = complain.reviewer;
 
-  if (
-    user.RFID !== complain.reviewer.RFID &&
-    user.typeOfUser !== 'System-Admin'
-  )
-    return res
-      .status(401)
-      .json("User doesn't have the permission to change review");
+  var index = 0;
+
+  //console.log(reviewer[1]._id, changer);
+
+  for (var i = 0; i < reviewer.length; i++) {
+    if(reviewer[i]._id.email == changer.email){
+      index = i;
+      break;
+    }
+  }
+
+  if(changer.typeOfUser == 'Faculty') {
+    reviewer[index] = await forFaculty(reviewer);
+  }
+  else if(changer.typeOfUser == 'Admin-Staff') reviewer[index] = await forAdminStaff(reviewer);
+  else if(changer.typeOfUser == 'Chairman') reviewer[index] = await forChairman(reviewer);
+  else if(changer.typeOfUser == 'Dean') reviewer[index] = await forDean(reviewer);
+  else if(changer.typeOfUser == 'Academic-Council') reviewer[index] = await forAcaCouncil(reviewer);
+
+  //console.log(reviewer);
 
   complain = await ComplainModel.findByIdAndUpdate(id, {
     reviewer: reviewer,

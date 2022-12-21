@@ -6,7 +6,9 @@ const User = require('../models/user-model');
 exports.all = catchAsync(async (req, res, next) => {
   try {
     //console.log(req.userID);
-    const user = await User.find();
+    const user = await User.find({
+      typeOfUser: {'$ne': 'Student'},
+    });
 
     res.status(200).json({
       status: 'success',
@@ -41,7 +43,7 @@ exports.anUser = catchAsync(async (req, res, next) => {
 
     const results = await User.find({
       name: { $regex: userPattern, $options: 'i' },
-      typeOfUser: { $ne: 'System-Admin' },
+      $and: [{typeOfUser: { $ne: 'System-Admin' }}, {typeOfUser: { $ne: 'Vice-Chancellor' }}],
     });
 
     //console.log(results);

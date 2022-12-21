@@ -20,15 +20,17 @@ export const closeComplain = async (user, comment, complainID) => {
   }
 };
 
-export const changeReviewer = async (user, complainID, reviewer) => {
+export const changeReviewer = async (user, complainID) => {
   try {
     const token = cookie.get('token');
 
     const res = await axios.patch(
       `${baseUrl}/api/v1/review/reviewerChange/${complainID}`,
-      { user, reviewer },
+      { user },
       { headers: { Authorization: token } }
     );
+
+    Router.reload();
   } catch (error) {
     alert(catchErrors(error));
   }

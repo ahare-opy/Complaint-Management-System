@@ -5,6 +5,7 @@ import ModalResolvedComplainDetails from './ModalResolvedComplainDetails';
 
 function CardComplainResolved({ user, complain, setComplains }) {
   const [showModal, setShowModal] = useState(false);
+  const [reviewers, setReviewers] = useState(complain.reviewer);
 
   return (
     <div>
@@ -39,19 +40,23 @@ function CardComplainResolved({ user, complain, setComplains }) {
           </Card>
         </Card.Content>
 
-        <Card.Content>
-          <Card color="blue">
+        {reviewers.length > 0 && 
+          reviewers.map((reviewer) => (
             <Card.Content>
-              <Image
-                floated="right"
-                size="mini"
-                src={complain.reviewer.image}
-              />
-              <Card.Header>{complain.reviewer.name}</Card.Header>
-              <Card.Meta>Reviewer</Card.Meta>
+              <Card color="blue">
+                <Card.Content>
+                  <Image
+                    floated="right"
+                    size="mini"
+                    src={reviewer._id.image}
+                  />
+                  <Card.Header>{reviewer._id.name}</Card.Header>
+                  <Card.Meta>Reviewer</Card.Meta>
+                  <Card.Meta>{reviewer._id.typeOfUser}</Card.Meta>
+                </Card.Content>
+              </Card>
             </Card.Content>
-          </Card>
-        </Card.Content>
+        ))}
 
         <Card.Content>
           <Button

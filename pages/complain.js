@@ -108,7 +108,7 @@ function Complain({ user }) {
 
           <Divider />
 
-          <Card.Group>
+          <Card.Group fluid>
             {complains.map((complain) => (
               <CardComplain
                 key={complain._id}

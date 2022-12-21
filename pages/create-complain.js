@@ -83,34 +83,6 @@ function CreateComplain({ user }) {
     setFaultyLoading(false);
   };
 
-  const [reviewer, setReviewer] = useState('');
-  const [reviewerID, setReviewerID] = useState('');
-  const [reviewerLoading, setReviewerLoading] = useState(false);
-  const [reviewerResults, setReviewerResults] = useState([]);
-
-  const reviewerHandleChange = async (e) => {
-    const { value } = e.target;
-    setReviewer(value);
-    setReviewerLoading(true);
-
-    try {
-      const token = cookie.get('token');
-
-      const res = await axios.get(`${baseUrl}/api/v1/user/reviewer/${value}`, {
-        headers: { Authorization: token },
-      });
-
-      if (res.data.length === 0) return setReviewerLoading(false);
-
-      setReviewerResults(res.data);
-    } catch (error) {
-      console.log(error);
-      ('Error Searching');
-    }
-
-    setReviewerLoading(false);
-  };
-
   const [media, setMedia] = useState(null);
   const [mediaPreview, setMediaPreview] = useState(null);
   const [highlighted, setHighlighted] = useState(false);
@@ -133,14 +105,13 @@ function CreateComplain({ user }) {
   };
 
   useEffect(() => {
-    if (faultyID && reviewerID) {
+    if (faultyID) {
       if (user.typeOfUser !== 'System-Admin')
         setComplain((prev) => ({ ...prev, complainer: user._id }));
       else setComplain((prev) => ({ ...prev, complainer: complainerID }));
       setComplain((prev) => ({ ...prev, faulty: faultyID }));
-      setComplain((prev) => ({ ...prev, reviewer: reviewerID }));
     }
-  }, [faultyID, reviewerID]);
+  }, [faultyID]);
 
   const handleSubmit = async (e) => {
     e.preventDefault(true);
@@ -165,7 +136,6 @@ function CreateComplain({ user }) {
       title,
       complaintext,
       faultyID,
-      reviewerID,
       media,
     }).every((item) => Boolean(item));
 
@@ -228,28 +198,6 @@ function CreateComplain({ user }) {
                 setFaulty(data.result.name);
                 setFaultyID(data.result._id);
                 console.log(faultyID);
-              }}
-              fluid
-            />
-
-            <Divider hidden />
-
-            <Label as="h4"> Reviewer </Label>
-            <Search
-              label="Reviewer"
-              onBlur={() => {
-                reviewerResults.length > 0 && setReviewerResults([]);
-                reviewerLoading && setReviewerLoading(false);
-              }}
-              loading={reviewerLoading}
-              value={reviewer}
-              resultRenderer={ResultRenderer}
-              results={reviewerResults}
-              onSearchChange={reviewerHandleChange}
-              minCharacters={1}
-              onResultSelect={(e, data) => {
-                setReviewer(data.result.name);
-                setReviewerID(data.result._id);
               }}
               fluid
             />
@@ -363,28 +311,6 @@ function CreateComplain({ user }) {
                 setFaulty(data.result.name);
                 setFaultyID(data.result._id);
                 console.log(faultyID);
-              }}
-              fluid
-            />
-
-            <Divider hidden />
-
-            <Label as="h4"> Reviewer </Label>
-            <Search
-              label="Reviewer"
-              onBlur={() => {
-                reviewerResults.length > 0 && setReviewerResults([]);
-                reviewerLoading && setReviewerLoading(false);
-              }}
-              loading={reviewerLoading}
-              value={reviewer}
-              resultRenderer={ResultRenderer}
-              results={reviewerResults}
-              onSearchChange={reviewerHandleChange}
-              minCharacters={1}
-              onResultSelect={(e, data) => {
-                setReviewer(data.result.name);
-                setReviewerID(data.result._id);
               }}
               fluid
             />

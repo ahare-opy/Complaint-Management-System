@@ -24,43 +24,15 @@ function ModalComplainReviewerChange({ user, complain }) {
   const [reviewerLoading, setReviewerLoading] = useState(false);
   const [reviewerResults, setReviewerResults] = useState([]);
 
-  const reviewerHandleChange = async (e) => {
-    const { value } = e.target;
-    setReviewer(value);
-    setReviewerLoading(true);
-
-    try {
-      const token = cookie.get('token');
-
-      const res = await axios.get(`${baseUrl}/api/v1/user/reviewer/${value}`, {
-        headers: { Authorization: token },
-      });
-
-      if (res.data.length === 0) return setReviewerLoading(false);
-
-      setReviewerResults(res.data);
-    } catch (error) {
-      console.log(error);
-      ('Error Searching');
-    }
-
-    setReviewerLoading(false);
-  };
-
   const [errorMessage, setErrorMessage] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
-  useEffect(() => {
-    if (reviewerID !== complain.reviewer._id) setSubmitDisabled(false);
-    else setSubmitDisabled(true);
-  });
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setFormLoading(true);
-    console.log(reviewerID);
-    await changeReviewer(user, complain._id, reviewerID);
+    //console.log(reviewerID);
+    await changeReviewer(user, complain._id);
     setFormLoading(false);
   };
 
@@ -90,24 +62,6 @@ function ModalComplainReviewerChange({ user, complain }) {
 
           <Segment>
             <Label as="h4">Reviewer</Label>
-            <Search
-              label="Reviewer"
-              onBlur={() => {
-                reviewerResults.length > 0 && setReviewerResults([]);
-                reviewerLoading && setReviewerLoading(false);
-              }}
-              loading={reviewerLoading}
-              value={reviewer}
-              resultRenderer={ResultRenderer}
-              results={reviewerResults}
-              onSearchChange={reviewerHandleChange}
-              minCharacters={1}
-              onResultSelect={(e, data) => {
-                setReviewer(data.result.name);
-                setReviewerID(data.result._id);
-              }}
-              fluid
-            />
 
             <Grid>
               <Grid.Column textAlign="center">
@@ -116,7 +70,6 @@ function ModalComplainReviewerChange({ user, complain }) {
                   content="Submit"
                   type="submit"
                   color="orange"
-                  disabled={submitDisabled}
                 />
               </Grid.Column>
             </Grid>

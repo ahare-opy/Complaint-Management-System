@@ -19,6 +19,7 @@ function ModalResolvedComplainDetails({ user, complain }) {
   const [comments, setComments] = useState(complain.comments);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
   const [passComplain, setPassComplain] = useState(complain);
+  const [reviewers, setReviewers] = useState(complain.reviewer);
 
   return (
     <div>
@@ -70,17 +71,20 @@ function ModalResolvedComplainDetails({ user, complain }) {
                 </Card.Content>
               </Card>
 
-              <Card color="blue">
+              {reviewers.length > 0 && 
+          reviewers.map((reviewer) => (
+            <Card color="blue">
                 <Card.Content>
                   <Image
                     floated="right"
                     size="mini"
-                    src={complain.reviewer.image}
+                    src={reviewer._id.image}
                   />
-                  <Card.Header>{complain.reviewer.name}</Card.Header>
+                  <Card.Header>{reviewer._id.name}</Card.Header>
                   <Card.Meta>Reviewer</Card.Meta>
                 </Card.Content>
               </Card>
+        ))}
             </Card.Group>
           </Card.Content>
 
